@@ -1,0 +1,97 @@
+<html>
+<head>
+    <title>User Page</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+   <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #fff;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        form {
+            display: inline;
+            margin-left: 10px;
+        }
+
+        button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        .chat-icon-button {
+        display: inline-block;
+        background-color: red;
+        color: white;
+        border: 1px solid black;
+        padding: 10px;
+        border-radius: 50%;
+        text-align: center;
+        text-decoration: none;
+        font-size: 20px;
+}
+    </style>
+<header>
+    <h1>Devices</h1>
+    <a href="{% url 'client_devices' %}" style="background-color:green; color:white; border:1px solid black; padding: 8px; border-radius:10px;">My devices</a>
+    <a href="{% url 'calendar' %}" style="background-color:blue; color:white; border:1px solid black; padding: 8px; border-radius:10px;">View Charts</a>
+
+    <a href="{% url 'chatv2' %}" class="chat-icon-button">
+    <i class="fas fa-comment"></i></a>
+
+</header>
+    <ul>
+        {% for device in mappings %}
+        <li>
+            <h2>{{ device.description }}</h2>
+            <p><strong>Address:</strong> {{ device.address }}</p>
+            <p><strong>Maximum Hourly Energy Consumption:</strong> {{ device.maximum_hourly_energy_consumption }} kWh</p>
+        </li>
+        {% empty %}
+        <li>No devices associated with this user.</li>
+        {% endfor %}
+    </ul>
+<!--LOGOUT-->
+<form action="{% url 'logout_view' %}" method="post">
+{% csrf_token %}
+<button type="submit" style="padding:10px; background-color:green; text-align:center;">Log out</button>
+</form>
+</body>
+
+</html>

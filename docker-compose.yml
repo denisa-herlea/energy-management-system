@@ -1,0 +1,75 @@
+version: '3'
+networks:
+  main:
+
+services:
+  rrc2:
+    build: ./rrc2
+    container_name: rrc2
+    ports:
+      - "8001:8001"
+    networks:
+      - main
+    volumes:
+      - rrc2-data:/app/data
+
+
+
+  rrc1:
+    build: ./rrc1
+    container_name: rrc1
+    ports:
+      - "8000:8000"
+    networks:
+      - main
+    depends_on:
+      - rrc2
+      #- acrn
+    volumes:
+      - rrc1-data:/app/data
+
+
+  mychat:
+    build: ./mychat
+    container_name: mychat
+    ports:
+      - "8003:8003"
+    networks:
+      - main
+    depends_on:
+      - rrc1
+    volumes:
+      - mychat-data:/app/data
+
+
+  #acrn:
+   # build: ./acrn
+    #container_name: acrn
+    #ports:
+    #  - "8002:8002"
+    #networks:
+    #  - main
+    #depends_on:
+    #  - rrc2
+    #volumes:
+    #  - acrn-data:/app/data
+
+
+
+  #producer:
+  #  build: ./producer
+  #  container_name: producer
+  #  networks:
+  #    - main
+  #  volumes:
+  #    - producer-data:/app/data
+  #  depends_on:
+  #    - rrc2
+
+
+volumes:
+  rrc1-data:
+  rrc2-data:
+  mychat-data:
+  #acrn-data:
+  #producer-data:

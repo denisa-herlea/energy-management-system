@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Edit</title>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+</head>
+<body>
+
+<div class="register-container">
+        <h2>Edit User</h2>
+        <form action="{% url 'update' %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="hidden" name="user_id" value="{{ user.id }}">
+            <label for="username"><b>Username:</b></label>
+            <input type="text" id="username" name="username" value="{{ user.username }}" required>
+
+			<label><b>First Name:</b></label>
+            <input type="text" id="firstname" name="firstname" value="{{ user.first_name }}" required>
+
+            <label><b>Last Name:</b></label>
+            <input type="text" id="lastname" name="lastname" value="{{ user.last_name }}" required>
+
+
+            <label class="label"><b>Select role:</b></label>
+                <div class="role-options">
+                {% if user.role == 'admin' %}
+                    <input type="radio" id="adminRole" name="role" value="admin" checked>
+                {%else%}
+                    <input type="radio" id="adminRole2" name="role" value="admin">
+                {%endif%}
+                <label>Admin</label>
+                </div>
+
+                <div class="role-options">
+                {% if user.role == 'client' %}
+                    <input type="radio" id="clientRole" name="role" value="client" checked>
+                {%else%}
+                    <input type="radio" id="clientRole2" name="role" value="client">
+                {%endif%}
+                <label>Client</label>
+                </div>
+
+
+            <button type="submit" style="margin-bottom: 20px;">Update</button>
+        </form>
+        <a href="/administration">Back</a>
+    </div>
+
+
+</body>
+</html>

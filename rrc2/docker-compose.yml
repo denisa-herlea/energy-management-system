@@ -1,0 +1,25 @@
+version: '3'
+services:
+  web_device:
+    build: .
+    environment:
+      MYENV: EXAMPLE
+    volumes:
+      - .:/code
+    networks:
+      - my_network
+  web_migrate_device:
+    extends:
+      service: web_device
+    command: python manage.py migrate
+  web_run_device:
+    extends:
+      service: web_device
+    command: python manage.py runserver 0.0.0.0:8001
+    ports:
+      - "8001:8001"
+    networks:
+      - my_network
+
+networks:
+  my_network:

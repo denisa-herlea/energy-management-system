@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+</head>
+<body>
+
+<div class="register-container">
+        <h2>Register</h2>
+        <form action="{% url 'register_view' %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="text" name="username" placeholder="Create a username" required>
+            <input type="password" name="password" placeholder="Choose a password" required>
+			<input type="text" name="firstname" placeholder="First name" required>
+            <input type="text" name="lastname" placeholder="Last name" required>
+			
+			<label class="label"><b>Select role:</b></label>
+			<div class="role-options">
+				<input type="radio" id="adminRole" name="role" value="admin">
+				<label for="adminRole">Admin</label>
+            </div>
+			<div class="role-options">
+				<input type="radio" id="clientRole" name="role" value="client">
+				<label for="clientRole">Client</label>
+			</div>
+			
+            <button type="submit">Register</button>
+        </form>
+        <p>Already have an account? <a href="{% url 'login_page' %}">Log in</a></p>
+    </div>
+
+
+</body>
+</html>

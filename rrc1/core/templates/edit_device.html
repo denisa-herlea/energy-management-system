@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Edit</title>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+</head>
+<body>
+
+<div class="register-container">
+        <h2>Edit Device</h2>
+        <form action="{% url 'update_device' %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="hidden" name="device_id" value="{{ device.id }}">
+            <label><b>Description:</b></label>
+            <input type="text" id="description" name="description" value="{{ device.description }}" required>
+
+			<label><b>Address:</b></label>
+            <input type="text" id="address" name="address" value="{{ device.address }}" required>
+
+            <label><b>Maximum Hourly Energy Consumption:</b></label>
+            <input type="text" id="maximum_hourly_energy_consumption" name="maximum_hourly_energy_consumption" value="{{ device.maximum_hourly_energy_consumption }}" required>
+
+
+            <button type="submit" style="margin-bottom: 20px;">Update Device</button>
+        </form>
+        <a href="/administration">Back</a>
+    </div>
+
+
+</body>
+</html>

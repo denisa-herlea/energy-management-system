@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Administration</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #fff;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        form {
+            display: inline;
+            margin-left: 10px;
+        }
+
+        button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        .chat-icon-button {
+        display: inline-block;
+        background-color: red;
+        color: white;
+        border: 1px solid black;
+        padding: 10px;
+        border-radius: 50%;
+        text-align: center;
+        text-decoration: none;
+        font-size: 20px;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Admins</h1>
+
+        <a href="{% url 'chatv2' %}" class="chat-icon-button"><i class="fas fa-comment"></i></a>
+
+        <form action="{% url 'add_admin' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" style="background-color:green; font-size: 25px;">+</button>
+        </form>
+    </header>
+    <ul>
+        {% for user in users %}
+            {% if user.role == 'admin' %}
+                <li>
+                    <strong>{{ user.username }}</strong> - {{ user.first_name }} {{ user.last_name }}
+                    <form action="{% url 'edit_user_view'%}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                        <button type="submit" style="background-color:blue;">Edit</button>
+                    </form>
+                    <form action="{% url 'delete_user'%}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                        <button type="submit" style="background-color:red;">Delete</button>
+                    </form>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+    <header>
+        <h1>Clients</h1>
+        <form action="{% url 'add_client' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" style="background-color:green; font-size: 25px;">+</button>
+        </form>
+    </header>
+    <ul>
+        {% for user in users %}
+            {% if user.role == 'client' %}
+                <li>
+                    <strong>{{ user.username }}</strong> - {{ user.first_name }} {{ user.last_name }}
+                    <form action="{% url 'edit_user_view'%}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                        <button type="submit" style="background-color:blue;">Edit</button>
+                    </form>
+                    <form action="{% url 'delete_user'%}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                        <button type="submit" style="background-color:red;">Delete</button>
+                    </form>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+    <header>
+        <h1>Devices</h1>
+        <form action="{% url 'add_device' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" style="background-color:green; font-size: 25px;">+</button>
+        </form>
+    </header>
+    <ul>
+    {% for device in devices %}
+        <li>
+            <strong>{{ device.description }}</strong> - {{ device.address }} (Max Energy: {{ device.maximum_hourly_energy_consumption }} kWh)
+            <form action="{% url 'edit_device_view' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="device_id" value="{{ device.id }}">
+                <button type="submit" style="background-color: blue;">Edit</button>
+            </form>
+            <form action="{% url 'delete_device'%}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="device_id" value="{{ device.id }}">
+                <button type="submit" style="background-color: red;">Delete</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>
+
+<!--LOGOUT-->
+<form action="{% url 'logout_view' %}" method="post">
+{% csrf_token %}
+<button type="submit" style="padding:10px; background-color:green; text-align:center;">Log out</button>
+</form>
+
+</body>
+</html>
